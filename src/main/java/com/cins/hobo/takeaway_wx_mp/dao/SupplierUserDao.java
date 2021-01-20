@@ -1,6 +1,9 @@
 package com.cins.hobo.takeaway_wx_mp.dao;
 
 import com.cins.hobo.takeaway_wx_mp.entry.SupplierUser;
+import com.cins.hobo.takeaway_wx_mp.vo.SupplierUserListVO;
+
+import java.util.List;
 
 public interface SupplierUserDao {
     int deleteByPrimaryKey(Integer id);
@@ -17,4 +20,5 @@ public interface SupplierUserDao {
 
     SupplierUser getSupplierUserByUsername(String username);
 
+    List<SupplierUserListVO> getSupplierUserList();
 }

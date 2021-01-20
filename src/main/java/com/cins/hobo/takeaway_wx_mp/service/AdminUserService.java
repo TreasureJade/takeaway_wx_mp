@@ -1,6 +1,7 @@
 package com.cins.hobo.takeaway_wx_mp.service;
 
 import com.cins.hobo.takeaway_wx_mp.entry.AdminUser;
+import com.cins.hobo.takeaway_wx_mp.form.AddSupplierUserForm;
 import com.cins.hobo.takeaway_wx_mp.form.AddUserForm;
 import com.cins.hobo.takeaway_wx_mp.form.LoginForm;
 import com.cins.hobo.takeaway_wx_mp.form.UpdatePwForm;
@@ -29,4 +30,12 @@ public interface AdminUserService {
     ResultVO getUserList();
 
     ResultVO deleteUser(Integer id);
+
+    ResultVO insertSupplierUser(AddSupplierUserForm addSupplierUserForm);
+
+    ResultVO updateAdminUserRole(Integer id, Integer role);
+
+    ResultVO getSupplierUserList();
+
+    ResultVO deleteSupplierUser(Integer id);
 }

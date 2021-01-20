@@ -21,6 +21,9 @@
   <select id="getSupplierUserByUsername" resultType="com.cins.hobo.takeaway_wx_mp.entry.SupplierUser">
     select id, username, `password`, trade_name, remark, `role` from supplier_user where username = #{username}
   </select>
+  <select id="getSupplierUserList" resultType="com.cins.hobo.takeaway_wx_mp.vo.SupplierUserListVO">
+    select id,username,trade_name,remark from supplier_user
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from supplier_user
     where id = #{id,jdbcType=INTEGER}

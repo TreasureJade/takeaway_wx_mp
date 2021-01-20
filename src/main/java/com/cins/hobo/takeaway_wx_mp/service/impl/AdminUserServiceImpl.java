@@ -1,8 +1,11 @@
 package com.cins.hobo.takeaway_wx_mp.service.impl;
 
 import com.cins.hobo.takeaway_wx_mp.dao.AdminUserDao;
+import com.cins.hobo.takeaway_wx_mp.dao.SupplierUserDao;
 import com.cins.hobo.takeaway_wx_mp.entry.AdminUser;
+import com.cins.hobo.takeaway_wx_mp.entry.SupplierUser;
 import com.cins.hobo.takeaway_wx_mp.enums.ResultEnum;
+import com.cins.hobo.takeaway_wx_mp.form.AddSupplierUserForm;
 import com.cins.hobo.takeaway_wx_mp.form.AddUserForm;
 import com.cins.hobo.takeaway_wx_mp.form.LoginForm;
 import com.cins.hobo.takeaway_wx_mp.form.UpdatePwForm;
@@ -11,7 +14,9 @@ import com.cins.hobo.takeaway_wx_mp.security.JwtTokenUtil;
 import com.cins.hobo.takeaway_wx_mp.security.JwtUserDetailServiceImpl;
 import com.cins.hobo.takeaway_wx_mp.service.AdminUserService;
 import com.cins.hobo.takeaway_wx_mp.vo.ResultVO;
+import com.cins.hobo.takeaway_wx_mp.vo.SupplierUserListVO;
 import com.cins.hobo.takeaway_wx_mp.vo.UserListVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,6 +54,9 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Autowired
     private JwtProperties jwtProperties;
+
+    @Autowired
+    private SupplierUserDao supplierUserDao;
 
 
     @Override
@@ -116,7 +124,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     public ResultVO updatePw(UpdatePwForm updatePwForm) {
         AdminUser user = getCurrentUser();
         if (user == null) {
-            return ResultVO.error(ResultEnum.USER_NOT_EXIST);
+            return ResultVO.error(ResultEnum.AUTHENTICATION_ERROR);
         }
         if (!new BCryptPasswordEncoder().matches(updatePwForm.getOldPw(), user.getPassword())){
             return ResultVO.error(ResultEnum.PASSWORD_ERROR);
@@ -148,6 +156,53 @@ public class AdminUserServiceImpl implements AdminUserService {
         }
         return ResultVO.error(ResultEnum.SERVER_ERROR);
 
+    }
+
+    @Override
+    public ResultVO insertSupplierUser(AddSupplierUserForm addSupplierUserForm) {
+        if (supplierUserDao.getSupplierUserByUsername(addSupplierUserForm.getUsername())!=null){
+            return ResultVO.error(ResultEnum.USER_ALREADY_EXIST);
+        }
+        String password = new BCryptPasswordEncoder().encode(jwtProperties.getDefaultPassword());
+        SupplierUser user = new SupplierUser();
+        BeanUtils.copyProperties(addSupplierUserForm,user);
+        user.setPassword(password);
+        user.setRole(1);
+        if (supplierUserDao.insert(user)==1){
+            return ResultVO.success(user);
+        }
+        return ResultVO.error(ResultEnum.SERVER_ERROR);
+    }
+
+    @Override
+    public ResultVO updateAdminUserRole(Integer id, Integer role) {
+        AdminUser user = adminUserDao.selectByPrimaryKey(id);
+        if (user==null){
+            return ResultVO.error(ResultEnum.USER_NOT_EXIST);
+        }
+        user.setRole(role);
+        if (adminUserDao.updateByPrimaryKey(user)==1){
+            return ResultVO.success();
+        }
+        return ResultVO.error(ResultEnum.SERVER_ERROR);
+    }
+
+    @Override
+    public ResultVO getSupplierUserList() {
+        List<SupplierUserListVO> userListVOList = supplierUserDao.getSupplierUserList();
+        return ResultVO.success(userListVOList);
+    }
+
+    @Override
+    public ResultVO deleteSupplierUser(Integer id) {
+        SupplierUser supplierUser = supplierUserDao.selectByPrimaryKey(id);
+        if (supplierUser==null){
+            return ResultVO.error(ResultEnum.USER_NOT_EXIST);
+        }
+        if (supplierUserDao.deleteByPrimaryKey(id)==1){
+            return ResultVO.success();
+        }
+        return ResultVO.error(ResultEnum.SERVER_ERROR);
     }
 
 
