@@ -85,7 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/v3/api-docs",
                         "/webjars/**")
                 .permitAll()
-                .antMatchers("/admin_user/login").permitAll()
+                .antMatchers("/admin_user/login","/supplier/login").permitAll()
                 .anyRequest().authenticated();
 
         //配置自己的验证过滤器

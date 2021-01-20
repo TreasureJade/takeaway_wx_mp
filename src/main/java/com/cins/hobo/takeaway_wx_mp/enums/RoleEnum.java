@@ -12,8 +12,8 @@ import java.util.HashMap;
  */
 @Getter
 public enum RoleEnum {
-    USER(1, "用户"),
-    ADMIN(2, "管理员"),
+    USER(1, "供货商"),
+    ADMIN(2, "店员"),
     SUPPER_ADMIN(3,"系统管理员")
     ;
 
