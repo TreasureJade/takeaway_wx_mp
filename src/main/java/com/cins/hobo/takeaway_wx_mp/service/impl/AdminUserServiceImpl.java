@@ -132,7 +132,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         }
         String newPw = new BCryptPasswordEncoder().encode(updatePwForm.getNewPw());
         user.setPassword(newPw);
-        if (adminUserDao.updateByPrimaryKey(user)==1){
+        if (adminUserDao.updateByPrimaryKeySelective(user)==1){
             return ResultVO.success();
         }
         return ResultVO.error(ResultEnum.SERVER_ERROR);
@@ -181,7 +181,7 @@ public class AdminUserServiceImpl implements AdminUserService {
             return ResultVO.error(ResultEnum.USER_NOT_EXIST);
         }
         user.setRole(role);
-        if (adminUserDao.updateByPrimaryKey(user)==1){
+        if (adminUserDao.updateByPrimaryKeySelective(user)==1){
             return ResultVO.success();
         }
         return ResultVO.error(ResultEnum.SERVER_ERROR);

@@ -66,7 +66,7 @@ public class SupplierUserServiceImpl implements SupplierUserService {
     public SupplierUser getSupplierUserByUsername(String username) {
         SupplierUser user = supplierUserDao.getSupplierUserByUsername(username);
         if (user == null) {
-            throw new GlobalException(ResultEnum.USER_NOT_EXIST);
+            return new SupplierUser();
         }
         return user;
     }
@@ -104,7 +104,7 @@ public class SupplierUserServiceImpl implements SupplierUserService {
         SupplierUser supplierUser = getCurrentUser();
         if (supplierUser != null) {
             BeanUtils.copyProperties(form, supplierUser);
-            if (supplierUserDao.updateByPrimaryKey(supplierUser) == 1) {
+            if (supplierUserDao.updateByPrimaryKeySelective(supplierUser) == 1) {
                 return ResultVO.success();
             }
             return ResultVO.error(ResultEnum.SERVER_ERROR);
@@ -121,7 +121,7 @@ public class SupplierUserServiceImpl implements SupplierUserService {
             }
             String newPw = new BCryptPasswordEncoder().encode(form.getNewPw());
             supplierUser.setPassword(newPw);
-            if (supplierUserDao.updateByPrimaryKey(supplierUser) == 1) {
+            if (supplierUserDao.updateByPrimaryKeySelective(supplierUser) == 1) {
                 return ResultVO.success();
             }
             return ResultVO.error(ResultEnum.SERVER_ERROR);
