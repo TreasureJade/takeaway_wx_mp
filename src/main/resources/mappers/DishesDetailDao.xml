@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cins.hobo.takeaway_wx_mp.dao.DishesDetailDao">
+  <resultMap id="BaseResultMap" type="com.cins.hobo.takeaway_wx_mp.entry.DishesDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dish_name" jdbcType="VARCHAR" property="dishName" />
+    <result column="dish_type_id" jdbcType="INTEGER" property="dishTypeId" />
+    <result column="basic_intro" jdbcType="VARCHAR" property="basicIntro" />
+    <result column="ori_price" jdbcType="DECIMAL" property="oriPrice" />
+    <result column="pre_price" jdbcType="DECIMAL" property="prePrice" />
+    <result column="dish_pic_url" jdbcType="VARCHAR" property="dishPicUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, dish_name, dish_type_id, basic_intro, ori_price, pre_price, dish_pic_url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dishes_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByDishName" resultType="com.cins.hobo.takeaway_wx_mp.entry.DishesDetail">
+    select id, dish_name, dish_type_id, basic_intro, ori_price, pre_price, dish_pic_url from dishes_detail
+    where dish_name = #{dishName}
+  </select>
+    <select id="getDishesByTypeId" resultType="com.cins.hobo.takeaway_wx_mp.entry.DishesDetail">
+      select id, dish_name, dish_type_id, basic_intro, ori_price, pre_price, dish_pic_url from dishes_detail
+      where dish_type_id = #{typeId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dishes_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.DishesDetail" useGeneratedKeys="true">
+    insert into dishes_detail (dish_name, dish_type_id, basic_intro, 
+      ori_price, pre_price, dish_pic_url
+      )
+    values (#{dishName,jdbcType=VARCHAR}, #{dishTypeId,jdbcType=INTEGER}, #{basicIntro,jdbcType=VARCHAR}, 
+      #{oriPrice,jdbcType=DECIMAL}, #{prePrice,jdbcType=DECIMAL}, #{dishPicUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.DishesDetail" useGeneratedKeys="true">
+    insert into dishes_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dishName != null">
+        dish_name,
+      </if>
+      <if test="dishTypeId != null">
+        dish_type_id,
+      </if>
+      <if test="basicIntro != null">
+        basic_intro,
+      </if>
+      <if test="oriPrice != null">
+        ori_price,
+      </if>
+      <if test="prePrice != null">
+        pre_price,
+      </if>
+      <if test="dishPicUrl != null">
+        dish_pic_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dishName != null">
+        #{dishName,jdbcType=VARCHAR},
+      </if>
+      <if test="dishTypeId != null">
+        #{dishTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="basicIntro != null">
+        #{basicIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="oriPrice != null">
+        #{oriPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="prePrice != null">
+        #{prePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="dishPicUrl != null">
+        #{dishPicUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cins.hobo.takeaway_wx_mp.entry.DishesDetail">
+    update dishes_detail
+    <set>
+      <if test="dishName != null">
+        dish_name = #{dishName,jdbcType=VARCHAR},
+      </if>
+      <if test="dishTypeId != null">
+        dish_type_id = #{dishTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="basicIntro != null">
+        basic_intro = #{basicIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="oriPrice != null">
+        ori_price = #{oriPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="prePrice != null">
+        pre_price = #{prePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="dishPicUrl != null">
+        dish_pic_url = #{dishPicUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cins.hobo.takeaway_wx_mp.entry.DishesDetail">
+    update dishes_detail
+    set dish_name = #{dishName,jdbcType=VARCHAR},
+      dish_type_id = #{dishTypeId,jdbcType=INTEGER},
+      basic_intro = #{basicIntro,jdbcType=VARCHAR},
+      ori_price = #{oriPrice,jdbcType=DECIMAL},
+      pre_price = #{prePrice,jdbcType=DECIMAL},
+      dish_pic_url = #{dishPicUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
