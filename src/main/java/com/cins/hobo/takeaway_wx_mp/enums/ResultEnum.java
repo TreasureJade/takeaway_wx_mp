@@ -20,7 +20,15 @@ public enum ResultEnum {
 
     USER_NOT_EXIST(1, "用户不存在"),
     PASSWORD_ERROR(2, "密码错误"),
-    USER_ALREADY_EXIST(3,"用户已存在" );
+    USER_ALREADY_EXIST(3,"用户已存在" ),
+
+    DISH_TYPE_ALREADY_EXIST(4,"该菜品种类已存在" ),
+    DISH_TYPE_NOT_EXIST(4, "该菜品种类不存在"),
+
+    DISH_NOT_EXIST(5,"该菜品不存在" ),
+    DISH_ALREADY_EXIST(5,"该菜品已存在" ),
+
+    DIR_NOT_EXIST(50,"服务器文件夹不存在" );
 
 
     private Integer code;
