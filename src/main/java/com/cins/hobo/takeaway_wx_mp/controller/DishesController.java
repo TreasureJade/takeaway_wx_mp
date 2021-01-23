@@ -31,7 +31,7 @@ public class DishesController {
     @RoleContro(role = RoleEnum.SUPPER_ADMIN)
     @ApiOperation("添加新的菜品种类")
     @PostMapping(value = "/dish_type")
-    public ResultVO insertDishesType(String dishesTypeName){
+    public ResultVO insertDishesType(@ApiParam(value = "菜品种类名称") String dishesTypeName){
         return dishesService.insertDishesType(dishesTypeName);
     }
 
