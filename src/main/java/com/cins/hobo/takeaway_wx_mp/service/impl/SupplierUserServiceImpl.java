@@ -64,11 +64,7 @@ public class SupplierUserServiceImpl implements SupplierUserService {
 
     @Override
     public SupplierUser getSupplierUserByUsername(String username) {
-        SupplierUser user = supplierUserDao.getSupplierUserByUsername(username);
-        if (user == null) {
-            return new SupplierUser();
-        }
-        return user;
+        return supplierUserDao.getSupplierUserByUsername(username);
     }
 
     @Override
