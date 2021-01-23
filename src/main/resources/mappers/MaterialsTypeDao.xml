@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cins.hobo.takeaway_wx_mp.dao.MaterialsTypeDao">
+  <resultMap id="BaseResultMap" type="com.cins.hobo.takeaway_wx_mp.entry.MaterialsType">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="metarials_type_name" jdbcType="VARCHAR" property="metarialsTypeName" />
+    <result column="sup_user_id" jdbcType="INTEGER" property="supUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, metarials_type_name, sup_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from materials_type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectTypeByTypeName" resultType="com.cins.hobo.takeaway_wx_mp.entry.MaterialsType">
+      select id,metarials_type_name from materials_type where metarials_type_name = #{metarialsTypeName}
+    </select>
+  <select id="getMetarialsTypeList" resultType="com.cins.hobo.takeaway_wx_mp.entry.MaterialsType">
+     select id,metarials_type_name from materials_type
+  </select>
+  <select id="getDetailListByTypeId" resultType="com.cins.hobo.takeaway_wx_mp.vo.MetarialsDetailListVO">
+    select materials_type.id as materialTypeId ,metarials_type_name,sup_user_id,supplier_user.username as supUsername,
+    supplier_user.trade_name
+    from materials_type
+        left JOIN  supplier_user ON materials_type.sup_user_id = supplier_user.id
+    WHERE materials_type.id = #{typeId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from materials_type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.MaterialsType" useGeneratedKeys="true">
+    insert into materials_type (metarials_type_name, sup_user_id)
+    values (#{metarialsTypeName,jdbcType=VARCHAR}, #{supUserId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.MaterialsType" useGeneratedKeys="true">
+    insert into materials_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="metarialsTypeName != null">
+        metarials_type_name,
+      </if>
+      <if test="supUserId != null">
+        sup_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="metarialsTypeName != null">
+        #{metarialsTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="supUserId != null">
+        #{supUserId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cins.hobo.takeaway_wx_mp.entry.MaterialsType">
+    update materials_type
+    <set>
+      <if test="metarialsTypeName != null">
+        metarials_type_name = #{metarialsTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="supUserId != null">
+        sup_user_id = #{supUserId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cins.hobo.takeaway_wx_mp.entry.MaterialsType">
+    update materials_type
+    set metarials_type_name = #{metarialsTypeName,jdbcType=VARCHAR},
+      sup_user_id = #{supUserId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

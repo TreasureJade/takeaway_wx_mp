@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cins.hobo.takeaway_wx_mp.dao.MaterialsDetailDao">
+  <resultMap id="BaseResultMap" type="com.cins.hobo.takeaway_wx_mp.entry.MaterialsDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="metarials_name" jdbcType="VARCHAR" property="metarialsName" />
+    <result column="metarials_type_id" jdbcType="INTEGER" property="metarialsTypeId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, metarials_name, metarials_type_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from materials_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByMetarialsName" resultType="com.cins.hobo.takeaway_wx_mp.entry.MaterialsDetail">
+      select id, metarials_name, metarials_type_id from materials_detail where metarials_name=#{metarialsName}
+    </select>
+  <select id="getDetailListByTypeId" resultType="com.cins.hobo.takeaway_wx_mp.entry.MaterialsDetail">
+    select id, metarials_name, metarials_type_id from materials_detail where metarials_type_id = #{typeId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from materials_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.MaterialsDetail" useGeneratedKeys="true">
+    insert into materials_detail (metarials_name, metarials_type_id)
+    values (#{metarialsName,jdbcType=VARCHAR}, #{metarialsTypeId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.MaterialsDetail" useGeneratedKeys="true">
+    insert into materials_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="metarialsName != null">
+        metarials_name,
+      </if>
+      <if test="metarialsTypeId != null">
+        metarials_type_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="metarialsName != null">
+        #{metarialsName,jdbcType=VARCHAR},
+      </if>
+      <if test="metarialsTypeId != null">
+        #{metarialsTypeId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cins.hobo.takeaway_wx_mp.entry.MaterialsDetail">
+    update materials_detail
+    <set>
+      <if test="metarialsName != null">
+        metarials_name = #{metarialsName,jdbcType=VARCHAR},
+      </if>
+      <if test="metarialsTypeId != null">
+        metarials_type_id = #{metarialsTypeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cins.hobo.takeaway_wx_mp.entry.MaterialsDetail">
+    update materials_detail
+    set metarials_name = #{metarialsName,jdbcType=VARCHAR},
+      metarials_type_id = #{metarialsTypeId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
