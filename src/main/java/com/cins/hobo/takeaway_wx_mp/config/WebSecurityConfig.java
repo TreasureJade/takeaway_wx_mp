@@ -5,6 +5,7 @@ import com.cins.hobo.takeaway_wx_mp.security.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -86,6 +87,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/webjars/**")
                 .permitAll()
                 .antMatchers("/admin_user/login","/supplier/login").permitAll()
+                .antMatchers(HttpMethod.GET,"/dishes/dish_detail","/dishes/dish_type"
+                                            ,"/dishes/dish_type/getDishesList").permitAll()
                 .anyRequest().authenticated();
 
         //配置自己的验证过滤器
