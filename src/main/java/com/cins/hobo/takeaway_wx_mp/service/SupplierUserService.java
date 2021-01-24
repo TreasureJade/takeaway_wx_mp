@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface SupplierUserService {
 
+    SupplierUser getCurrentUser();
+
     SupplierUser getSupplierUserByUsername(String username);
 
     ResultVO login(LoginForm loginForm, HttpServletResponse response);

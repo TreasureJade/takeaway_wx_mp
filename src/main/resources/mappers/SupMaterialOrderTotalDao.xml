@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cins.hobo.takeaway_wx_mp.dao.SupMaterialOrderTotalDao">
+  <resultMap id="BaseResultMap" type="com.cins.hobo.takeaway_wx_mp.entry.SupMaterialOrderTotal">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="sup_user_id" jdbcType="INTEGER" property="supUserId" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_id, sup_user_id, total_price, order_status, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sup_material_order_total
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectOrderByOrderId" resultType="com.cins.hobo.takeaway_wx_mp.entry.SupMaterialOrderTotal">
+    select
+    <include refid="Base_Column_List" />
+    from sup_material_order_total
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sup_material_order_total
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.SupMaterialOrderTotal" useGeneratedKeys="true">
+    insert into sup_material_order_total (order_id, sup_user_id, total_price, 
+      order_status, create_time, update_time
+      )
+    values (#{orderId,jdbcType=VARCHAR}, #{supUserId,jdbcType=INTEGER}, #{totalPrice,jdbcType=DECIMAL}, 
+      #{orderStatus,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.SupMaterialOrderTotal" useGeneratedKeys="true">
+    insert into sup_material_order_total
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="supUserId != null">
+        sup_user_id,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="supUserId != null">
+        #{supUserId,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cins.hobo.takeaway_wx_mp.entry.SupMaterialOrderTotal">
+    update sup_material_order_total
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="supUserId != null">
+        sup_user_id = #{supUserId,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cins.hobo.takeaway_wx_mp.entry.SupMaterialOrderTotal">
+    update sup_material_order_total
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      sup_user_id = #{supUserId,jdbcType=INTEGER},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -52,6 +52,7 @@ public class SupplierUserServiceImpl implements SupplierUserService {
     private JwtProperties jwtProperties;
 
 
+    @Override
     public SupplierUser getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();

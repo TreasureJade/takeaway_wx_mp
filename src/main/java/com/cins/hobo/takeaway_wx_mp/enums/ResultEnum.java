@@ -34,7 +34,8 @@ public enum ResultEnum {
     METARIALS_TYPE_NOT_EXIST(6,"该原材料种类不存在" ),
     METARIALS_ALREADY_EXIST(7,"该原材料已存在" ),
     METARIALS_NOT_EXIST(7,"该原材料不存在" ),
-    ;
+
+    CREATE_ORDER_ERROR(20,"创建订单失败" );
     private Integer code;
     private String msg;
 

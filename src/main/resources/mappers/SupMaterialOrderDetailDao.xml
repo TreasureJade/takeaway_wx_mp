@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cins.hobo.takeaway_wx_mp.dao.SupMaterialOrderDetailDao">
+  <resultMap id="BaseResultMap" type="com.cins.hobo.takeaway_wx_mp.entry.SupMaterialOrderDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="material_id" jdbcType="INTEGER" property="materialId" />
+    <result column="sub_user_id" jdbcType="INTEGER" property="subUserId" />
+    <result column="material_quantity" jdbcType="FLOAT" property="materialQuantity" />
+    <result column="material_price" jdbcType="DECIMAL" property="materialPrice" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_id, material_id, sub_user_id, material_quantity, material_price, order_status, 
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sup_material_order_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getDetailsBySubUserId" resultType="com.cins.hobo.takeaway_wx_mp.entry.SupMaterialOrderDetail">
+    select id, order_id, material_id, sub_user_id, material_quantity, material_price from sup_material_order_detail
+    where sub_user_id = #{subUserId}
+  </select>
+    <select id="getSupUserAllNewOrder" resultType="com.cins.hobo.takeaway_wx_mp.vo.SupOrderListVO">
+      select sup_material_order_detail.id ,order_id,material_id,materials_detail.metarials_name as materialsName,material_quantity,sub_user_id
+      FROM sup_material_order_detail
+      LEFT JOIN materials_detail on material_id = materials_detail.id
+      WHERE sub_user_id = #{supUserId} and order_status= #{orderStatus}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sup_material_order_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.SupMaterialOrderDetail" useGeneratedKeys="true">
+    insert into sup_material_order_detail (order_id, material_id, sub_user_id, 
+      material_quantity, material_price, order_status, 
+      create_time, update_time)
+    values (#{orderId,jdbcType=VARCHAR}, #{materialId,jdbcType=INTEGER}, #{subUserId,jdbcType=INTEGER}, 
+      #{materialQuantity,jdbcType=FLOAT}, #{materialPrice,jdbcType=DECIMAL}, #{orderStatus,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.SupMaterialOrderDetail" useGeneratedKeys="true">
+    insert into sup_material_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="materialId != null">
+        material_id,
+      </if>
+      <if test="subUserId != null">
+        sub_user_id,
+      </if>
+      <if test="materialQuantity != null">
+        material_quantity,
+      </if>
+      <if test="materialPrice != null">
+        material_price,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null">
+        #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="subUserId != null">
+        #{subUserId,jdbcType=INTEGER},
+      </if>
+      <if test="materialQuantity != null">
+        #{materialQuantity,jdbcType=FLOAT},
+      </if>
+      <if test="materialPrice != null">
+        #{materialPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cins.hobo.takeaway_wx_mp.entry.SupMaterialOrderDetail">
+    update sup_material_order_detail
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null">
+        material_id = #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="subUserId != null">
+        sub_user_id = #{subUserId,jdbcType=INTEGER},
+      </if>
+      <if test="materialQuantity != null">
+        material_quantity = #{materialQuantity,jdbcType=FLOAT},
+      </if>
+      <if test="materialPrice != null">
+        material_price = #{materialPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cins.hobo.takeaway_wx_mp.entry.SupMaterialOrderDetail">
+    update sup_material_order_detail
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      material_id = #{materialId,jdbcType=INTEGER},
+      sub_user_id = #{subUserId,jdbcType=INTEGER},
+      material_quantity = #{materialQuantity,jdbcType=FLOAT},
+      material_price = #{materialPrice,jdbcType=DECIMAL},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
