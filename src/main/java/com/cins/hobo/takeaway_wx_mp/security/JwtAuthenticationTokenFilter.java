@@ -46,13 +46,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             String requestUrl = httpServletRequest.getRequestURI();
             log.info("requestURI: {}", requestUrl);
             String authtoken = httpServletRequest.getHeader(this.tokenHeader);
-            String phoneNum = jwtTokenUtil.getUsernameFromToken(authtoken);
+            String username = jwtTokenUtil.getUsernameFromToken(authtoken);
 
-            log.info("checking authentication for user " + phoneNum);
+            log.info("checking authentication for user " + username);
 
-            if (phoneNum != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(phoneNum);
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
                 log.info("加载UserDetails:{}", userDetails.getUsername());
                 if (jwtTokenUtil.validateToken(authtoken, userDetails)) {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

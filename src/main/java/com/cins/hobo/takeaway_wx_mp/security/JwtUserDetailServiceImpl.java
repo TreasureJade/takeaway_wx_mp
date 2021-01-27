@@ -33,7 +33,7 @@ public class JwtUserDetailServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AdminUser adminUser = userService.getUserByUsername(username);
         SupplierUser supplierUser = supplierUserService.getSupplierUserByUsername(username);
-        if (adminUser != null) {
+        if (adminUser != null && supplierUser == null) {
             String role = RoleEnum.getRole(adminUser.getRole());
             return new JwtUser(username, adminUser.getPassword(), role);
         } else if (supplierUser !=null){
