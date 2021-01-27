@@ -38,4 +38,8 @@ public interface AdminUserService {
     ResultVO getSupplierUserList();
 
     ResultVO deleteSupplierUser(Integer id);
+
+    ResultVO updatePwToDefaultPw(Integer id);
+
+    ResultVO updateSupUserPwToDefaultPw(Integer id);
 }

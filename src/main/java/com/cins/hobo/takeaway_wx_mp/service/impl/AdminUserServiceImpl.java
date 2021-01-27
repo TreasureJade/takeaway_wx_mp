@@ -5,6 +5,7 @@ import com.cins.hobo.takeaway_wx_mp.dao.SupplierUserDao;
 import com.cins.hobo.takeaway_wx_mp.entry.AdminUser;
 import com.cins.hobo.takeaway_wx_mp.entry.SupplierUser;
 import com.cins.hobo.takeaway_wx_mp.enums.ResultEnum;
+import com.cins.hobo.takeaway_wx_mp.enums.RoleEnum;
 import com.cins.hobo.takeaway_wx_mp.form.AddSupplierUserForm;
 import com.cins.hobo.takeaway_wx_mp.form.AddUserForm;
 import com.cins.hobo.takeaway_wx_mp.form.LoginForm;
@@ -113,7 +114,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         AdminUser user = new AdminUser();
         user.setUserName(form.getUserName());
         user.setPassword(password);
-        user.setRole(0);
+        user.setRole(RoleEnum.ADMIN.getValue());
         if (adminUserDao.insert(user) == 1) {
             return ResultVO.success();
         }
@@ -167,7 +168,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         SupplierUser user = new SupplierUser();
         BeanUtils.copyProperties(addSupplierUserForm,user);
         user.setPassword(password);
-        user.setRole(1);
+        user.setRole(RoleEnum.USER.getValue());
         if (supplierUserDao.insert(user)==1){
             return ResultVO.success(user);
         }
@@ -200,6 +201,32 @@ public class AdminUserServiceImpl implements AdminUserService {
             return ResultVO.error(ResultEnum.USER_NOT_EXIST);
         }
         if (supplierUserDao.deleteByPrimaryKey(id)==1){
+            return ResultVO.success();
+        }
+        return ResultVO.error(ResultEnum.SERVER_ERROR);
+    }
+
+    @Override
+    public ResultVO updatePwToDefaultPw(Integer id) {
+        AdminUser adminUser = adminUserDao.selectByPrimaryKey(id);
+        if (adminUser == null){
+            return ResultVO.error(ResultEnum.USER_NOT_EXIST);
+        }
+        adminUser.setPassword(new BCryptPasswordEncoder().encode(jwtProperties.getDefaultPassword()));
+        if (adminUserDao.updateByPrimaryKeySelective(adminUser)==1){
+            return ResultVO.success();
+        }
+        return ResultVO.error(ResultEnum.SERVER_ERROR);
+    }
+
+    @Override
+    public ResultVO updateSupUserPwToDefaultPw(Integer id) {
+        SupplierUser supplierUser = supplierUserDao.selectByPrimaryKey(id);
+        if (supplierUser == null){
+            return ResultVO.error(ResultEnum.USER_NOT_EXIST);
+        }
+        supplierUser.setPassword(new BCryptPasswordEncoder().encode(jwtProperties.getDefaultPassword()));
+        if (supplierUserDao.updateByPrimaryKeySelective(supplierUser) == 1){
             return ResultVO.success();
         }
         return ResultVO.error(ResultEnum.SERVER_ERROR);

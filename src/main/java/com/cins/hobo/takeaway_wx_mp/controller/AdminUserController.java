@@ -51,6 +51,21 @@ public class AdminUserController {
         return adminUserService.updatePw(updatePwForm);
     }
 
+
+    @RoleContro(role = RoleEnum.SUPPER_ADMIN)
+    @ApiOperation("修改店员密码为默认密码 123456")
+    @PostMapping(name = "修改店员密码为默认密码",value = "update_default")
+    public ResultVO updateAdminPwToDefaultPw(@ApiParam(value = "用户id") Integer id){
+        return adminUserService.updatePwToDefaultPw(id);
+    }
+
+    @RoleContro(role = RoleEnum.SUPPER_ADMIN)
+    @ApiOperation("修改供货商密码为默认密码 123456")
+    @PostMapping("/update_sup_pw")
+    public ResultVO updateSupUserPwToDefaultPw(Integer id){
+        return adminUserService.updateSupUserPwToDefaultPw(id);
+    }
+
     @RoleContro(role = RoleEnum.SUPPER_ADMIN)
     @ApiOperation("获取用户列表")
     @GetMapping(name = "获取用户列表",value = "/list")
