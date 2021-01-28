@@ -89,6 +89,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin_user/login","/supplier/login").permitAll()
                 .antMatchers(HttpMethod.GET,"/dishes/dish_detail","/dishes/dish_type"
                                             ,"/dishes/dish_type/getDishesList").permitAll()
+                .antMatchers("/wx/**").permitAll()
                 .anyRequest().authenticated();
 
         //配置自己的验证过滤器
