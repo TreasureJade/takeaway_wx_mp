@@ -28,14 +28,19 @@ public enum ResultEnum {
     DISH_NOT_EXIST(5,"该菜品不存在" ),
     DISH_ALREADY_EXIST(5,"该菜品已存在" ),
 
-    DIR_NOT_EXIST(50,"服务器文件夹不存在" ),
 
     METARIALS_TYPE_ALREADY_EXIST(6,"该原材料种类已存在" ),
     METARIALS_TYPE_NOT_EXIST(6,"该原材料种类不存在" ),
     METARIALS_ALREADY_EXIST(7,"该原材料已存在" ),
     METARIALS_NOT_EXIST(7,"该原材料不存在" ),
 
-    CREATE_ORDER_ERROR(20,"创建订单失败" );
+    CREATE_ORDER_ERROR(20,"创建订单失败" ),
+
+
+    DIR_NOT_EXIST(50,"服务器文件夹不存在" ),
+
+    WX_MENU_CREAT_FILED(60,"微信菜单创建失败" ),
+    WX_AUTHORIZATION_FAILED(61,"微信用户授权失败" );
     private Integer code;
     private String msg;
 
