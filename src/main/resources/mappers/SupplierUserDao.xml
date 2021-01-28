@@ -3,14 +3,13 @@
 <mapper namespace="com.cins.hobo.takeaway_wx_mp.dao.SupplierUserDao">
   <resultMap id="BaseResultMap" type="com.cins.hobo.takeaway_wx_mp.entry.SupplierUser">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="username" jdbcType="CHAR" property="username" />
-    <result column="password" jdbcType="CHAR" property="password" />
+    <result column="phone_num" jdbcType="CHAR" property="phoneNum" />
     <result column="trade_name" jdbcType="VARCHAR" property="tradeName" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="role" jdbcType="INTEGER" property="role" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, username, `password`, trade_name, remark, `role`
+    id, phone_num, trade_name, remark, open_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -18,30 +17,32 @@
     from supplier_user
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="getSupplierUserByUsername" resultType="com.cins.hobo.takeaway_wx_mp.entry.SupplierUser">
-    select id, username, `password`, trade_name, remark, `role` from supplier_user where username = #{username}
+  <select id="selectByPhoneNum" resultType="com.cins.hobo.takeaway_wx_mp.entry.SupplierUser">
+    select id,phone_num,trade_name,remark,open_id from supplier_user where phone_num = #{phoneNum}
+  </select>
+  <select id="selectByOpenId" resultType="com.cins.hobo.takeaway_wx_mp.entry.SupplierUser">
+    select id,phone_num,trade_name,remark,open_id from supplier_user where open_id=#{openId}
   </select>
   <select id="getSupplierUserList" resultType="com.cins.hobo.takeaway_wx_mp.vo.SupplierUserListVO">
-    select id,username,trade_name,remark from supplier_user
+    select
+    <include refid="Base_Column_List" />
+    from supplier_user
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from supplier_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.SupplierUser" useGeneratedKeys="true">
-    insert into supplier_user (username, `password`, trade_name, 
-      remark, `role`)
-    values (#{username,jdbcType=CHAR}, #{password,jdbcType=CHAR}, #{tradeName,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER})
+    insert into supplier_user (phone_num, trade_name, remark, 
+      open_id)
+    values (#{phoneNum,jdbcType=CHAR}, #{tradeName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{openId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.SupplierUser" useGeneratedKeys="true">
     insert into supplier_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="username != null">
-        username,
-      </if>
-      <if test="password != null">
-        `password`,
+      <if test="phoneNum != null">
+        phone_num,
       </if>
       <if test="tradeName != null">
         trade_name,
@@ -49,16 +50,13 @@
       <if test="remark != null">
         remark,
       </if>
-      <if test="role != null">
-        `role`,
+      <if test="openId != null">
+        open_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="username != null">
-        #{username,jdbcType=CHAR},
-      </if>
-      <if test="password != null">
-        #{password,jdbcType=CHAR},
+      <if test="phoneNum != null">
+        #{phoneNum,jdbcType=CHAR},
       </if>
       <if test="tradeName != null">
         #{tradeName,jdbcType=VARCHAR},
@@ -66,19 +64,16 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="role != null">
-        #{role,jdbcType=INTEGER},
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.cins.hobo.takeaway_wx_mp.entry.SupplierUser">
     update supplier_user
     <set>
-      <if test="username != null">
-        username = #{username,jdbcType=CHAR},
-      </if>
-      <if test="password != null">
-        `password` = #{password,jdbcType=CHAR},
+      <if test="phoneNum != null">
+        phone_num = #{phoneNum,jdbcType=CHAR},
       </if>
       <if test="tradeName != null">
         trade_name = #{tradeName,jdbcType=VARCHAR},
@@ -86,19 +81,18 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="role != null">
-        `role` = #{role,jdbcType=INTEGER},
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cins.hobo.takeaway_wx_mp.entry.SupplierUser">
     update supplier_user
-    set username = #{username,jdbcType=CHAR},
-      `password` = #{password,jdbcType=CHAR},
+    set phone_num = #{phoneNum,jdbcType=CHAR},
       trade_name = #{tradeName,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      `role` = #{role,jdbcType=INTEGER}
+      open_id = #{openId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

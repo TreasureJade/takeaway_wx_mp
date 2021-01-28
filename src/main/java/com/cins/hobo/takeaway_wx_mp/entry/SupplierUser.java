@@ -11,9 +11,10 @@ import lombok.Data;
 public class SupplierUser implements Serializable {
     private Integer id;
 
-    private String username;
-
-    private String password;
+    /**
+     * 供货商手机号码
+     */
+    private String phoneNum;
 
     /**
      * 店名
@@ -25,7 +26,10 @@ public class SupplierUser implements Serializable {
      */
     private String remark;
 
-    private Integer role;
+    /**
+     * 微信openid
+     */
+    private String openId;
 
     private static final long serialVersionUID = 1L;
 }

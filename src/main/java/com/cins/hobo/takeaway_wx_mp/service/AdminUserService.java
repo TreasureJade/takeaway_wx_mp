@@ -41,5 +41,4 @@ public interface AdminUserService {
 
     ResultVO updatePwToDefaultPw(Integer id);
 
-    ResultVO updateSupUserPwToDefaultPw(Integer id);
 }

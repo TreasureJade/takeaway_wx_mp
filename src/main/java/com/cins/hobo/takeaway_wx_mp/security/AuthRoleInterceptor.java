@@ -51,12 +51,7 @@ public class AuthRoleInterceptor extends HandlerInterceptorAdapter {
                 return true;
             }
             log.warn(user.getUserName());
-            Integer userValue ;
-            if (supplierUserService.getSupplierUserByUsername(user.getUserName())!=null){
-                userValue = RoleEnum.getValue(RoleEnum.USER.getRole());
-            }else {
-                userValue = user.getRole();
-            }
+            Integer userValue = user.getRole();
             Integer roleValue = roleControl.role().getValue();
             log.info("RoleValue:{},userRole:{}", roleValue, userValue);
             if (userValue >= roleValue) {

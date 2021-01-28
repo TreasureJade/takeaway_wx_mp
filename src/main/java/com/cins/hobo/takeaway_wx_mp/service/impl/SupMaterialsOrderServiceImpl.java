@@ -1,6 +1,5 @@
 package com.cins.hobo.takeaway_wx_mp.service.impl;
 
-import com.cins.hobo.takeaway_wx_mp.dao.MaterialsDetailDao;
 import com.cins.hobo.takeaway_wx_mp.dao.SupMaterialOrderDetailDao;
 import com.cins.hobo.takeaway_wx_mp.dao.SupMaterialOrderTotalDao;
 import com.cins.hobo.takeaway_wx_mp.dto.CreateMaterialsOrderDTO;
@@ -41,8 +40,6 @@ public class SupMaterialsOrderServiceImpl implements SupMaterialsOrderService {
     @Autowired
     private SupMaterialOrderTotalDao orderTotalDao;
 
-    @Autowired
-    private MaterialsDetailDao materialsDetailDao;
 
     @Autowired
     private SupplierUserService userService;
@@ -50,16 +47,16 @@ public class SupMaterialsOrderServiceImpl implements SupMaterialsOrderService {
     @Override
     public ResultVO createNewMaterialsOrder(List<CreateMaterialsOrderForm> materialsOrders) {
         final String nowTime = TimeUtils.getOrderTime();
-        for (CreateMaterialsOrderForm order: materialsOrders) {
-            String orderId = nowTime + "_"+ order.getSubUserId();
-            for (CreateMaterialsOrderDTO dto:order.getOrderDTOList()) {
+        for (CreateMaterialsOrderForm order : materialsOrders) {
+            String orderId = nowTime + "_" + order.getSubUserId();
+            for (CreateMaterialsOrderDTO dto : order.getOrderDTOList()) {
                 SupMaterialOrderDetail detail = new SupMaterialOrderDetail();
-                BeanUtils.copyProperties(dto,detail);
+                BeanUtils.copyProperties(dto, detail);
                 detail.setOrderId(orderId);
                 detail.setCreateTime(TimeUtils.getTimeCN());
                 detail.setOrderStatus(OrderStatusEnum.NEW.getCode());
                 detail.setSubUserId(order.getSubUserId());
-                if (orderDetailDao.insertSelective(detail)!=1){
+                if (orderDetailDao.insertSelective(detail) != 1) {
                     return ResultVO.error(ResultEnum.CREATE_ORDER_ERROR);
                 }
             }
@@ -69,7 +66,7 @@ public class SupMaterialsOrderServiceImpl implements SupMaterialsOrderService {
             orderTotal.setTotalPrice(BigDecimal.valueOf(0));
             orderTotal.setOrderStatus(OrderStatusEnum.NEW.getCode());
             orderTotal.setCreateTime(TimeUtils.getTimeCN());
-            if (orderTotalDao.insertSelective(orderTotal)!=1){
+            if (orderTotalDao.insertSelective(orderTotal) != 1) {
                 // TODO 添加消息通知（from admin to sup_user）
                 return ResultVO.error(ResultEnum.CREATE_ORDER_ERROR);
             }
@@ -78,15 +75,15 @@ public class SupMaterialsOrderServiceImpl implements SupMaterialsOrderService {
     }
 
     @Override
-    public ResultVO supUserUpdateMaterialOrder(List<UpdateMaterialOrderPriceForm> priceForms) {
-        SupplierUser user = userService.getCurrentUser();
-        if (user==null){
+    public ResultVO supUserUpdateMaterialOrder(String openId, List<UpdateMaterialOrderPriceForm> priceForms) {
+        SupplierUser user = userService.getSupUserByOpenId(openId);
+        if (user == null) {
             return ResultVO.error(ResultEnum.AUTHENTICATION_ERROR);
         }
         BigDecimal orderAmount = new BigDecimal(BigInteger.ZERO);
         String orderId = "";
-        for (UpdateMaterialOrderPriceForm form:
-             priceForms) {
+        for (UpdateMaterialOrderPriceForm form :
+                priceForms) {
             SupMaterialOrderDetail detail = orderDetailDao.selectByPrimaryKey(form.getId());
             detail.setMaterialPrice(form.getPrice());
             orderAmount = detail.getMaterialPrice()
@@ -101,18 +98,17 @@ public class SupMaterialsOrderServiceImpl implements SupMaterialsOrderService {
         orderTotal.setTotalPrice(orderAmount);
         orderTotal.setUpdateTime(TimeUtils.getTimeCN());
         orderTotal.setOrderStatus(OrderStatusEnum.HAS_BEEN_PROCESSED.getCode());
-        if (orderTotalDao.updateByPrimaryKeySelective(orderTotal)==1){
+        if (orderTotalDao.updateByPrimaryKeySelective(orderTotal) == 1) {
             // TODO 添加消息通知（from sup_user to admin）
             return ResultVO.success();
         }
         return ResultVO.error(ResultEnum.SERVER_ERROR);
     }
 
-
     @Override
-    public ResultVO getSupUserAllNewOrder() {
-        SupplierUser user = userService.getCurrentUser();
-        if (user==null){
+    public ResultVO getSupUserAllNewOrder(String openId) {
+        SupplierUser user = userService.getSupUserByOpenId(openId);
+        if (user == null) {
             return ResultVO.error(ResultEnum.AUTHENTICATION_ERROR);
         }
         List<SupOrderListVO> orderList = orderDetailDao.getSupUserAllNewOrder(user.getId(),

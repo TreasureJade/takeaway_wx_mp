@@ -6,6 +6,7 @@ import com.cins.hobo.takeaway_wx_mp.service.SupMaterialsOrderService;
 import com.cins.hobo.takeaway_wx_mp.vo.ResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,14 +35,14 @@ public class SupMaterialsOrderController {
 
     @ApiOperation("供货商查看所有未处理订单")
     @GetMapping("/sup_order")
-    public ResultVO getSupUserAllNewOrder(){
-        return orderService.getSupUserAllNewOrder();
+    public ResultVO getSupUserAllNewOrder(@ApiParam(value = "微信用户openId") String openId){
+        return orderService.getSupUserAllNewOrder(openId);
     }
 
     @ApiOperation("供货商修改订单中原材料单价")
     @PutMapping("/sup_order")
-    public ResultVO supUserUpdateOrderMaterialsPrice(@RequestBody List<UpdateMaterialOrderPriceForm> priceForms){
-        return orderService.supUserUpdateMaterialOrder(priceForms);
+    public ResultVO supUserUpdateOrderMaterialsPrice(@RequestBody List<UpdateMaterialOrderPriceForm> priceForms,String openId){
+        return orderService.supUserUpdateMaterialOrder(openId,priceForms);
     }
 
 }

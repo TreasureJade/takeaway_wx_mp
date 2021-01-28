@@ -22,6 +22,15 @@ spring:
       enabled: true
       file-size-threshold: 102400000
       max-file-size: 10MB
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 10
+    jedis:
+      pool:
+        max-idle: 500
+        max-active: 1000
+        max-wait: 500
 mybatis:
   mapper-locations: classpath:mappers/*.xml
   type-aliases-package: com.cins.hobo.takeaway_wx_mp.entry
@@ -29,13 +38,6 @@ mybatis:
     map-underscore-to-camel-case: true
     use-generated-keys: true
 
-redis:
-  host: localhost
-  port: 6379
-  timeout: 10
-  poolMaxTotal: 1000
-  poolMaxIdle: 500
-  poolMaxWait: 500
 
 jwt:
   secret: "shishangkuaike"
@@ -55,3 +57,18 @@ swagger:
 #服务器文件上传文件夹
 file:
   dish_pic: "/Users/hobo/Documents/食尚快客/upload_test/dishes/"
+
+#微信相关
+wx:
+  mp:
+    config:
+      appId: "wx978128409ccb73e0"
+      secret: "27c8ace46a0b86b5a9ff604c71f4bfa2"
+      token: "sskk"
+      aesKey: "****"
+      mch_id: "商户号"
+      mch_key: "商户秘钥"
+      key_path: ""
+      notify_url: "回调地址"
+
+      template_id:

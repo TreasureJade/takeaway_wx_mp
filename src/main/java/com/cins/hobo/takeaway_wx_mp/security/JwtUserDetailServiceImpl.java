@@ -25,23 +25,17 @@ public class JwtUserDetailServiceImpl implements UserDetailsService {
     @Autowired
     private AdminUserService userService;
 
-    @Autowired
-    private SupplierUserService supplierUserService;
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AdminUser adminUser = userService.getUserByUsername(username);
-        SupplierUser supplierUser = supplierUserService.getSupplierUserByUsername(username);
-        if (adminUser != null && supplierUser == null) {
-            String role = RoleEnum.getRole(adminUser.getRole());
-            return new JwtUser(username, adminUser.getPassword(), role);
-        } else if (supplierUser !=null){
-            String role = RoleEnum.getRole(supplierUser.getRole());
-            return new JwtUser(username,supplierUser.getPassword(),role);
-        }else {
+        if (adminUser == null) {
             log.info("此用户不存在");
             throw new UsernameNotFoundException(String.format("用户名为 %s 的用户不存在", username));
         }
+        String role = RoleEnum.getRole(adminUser.getRole());
+        return new JwtUser(username, adminUser.getPassword(), role);
+
+
     }
 }

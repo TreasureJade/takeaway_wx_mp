@@ -12,6 +12,9 @@ import lombok.Data;
 @Data
 public class UpdateSupplierInfoForm {
 
+    @ApiModelProperty("供货商手机号")
+    private String phoneNum;
+
     /**
      * 店名
      */
@@ -24,5 +27,8 @@ public class UpdateSupplierInfoForm {
     @ApiModelProperty("备用联系方式")
     private String remark;
 
+
+    @ApiModelProperty("微信用户id")
+    private String openId;
 
 }

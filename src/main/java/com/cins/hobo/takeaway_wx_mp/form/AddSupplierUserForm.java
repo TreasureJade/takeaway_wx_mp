@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class AddSupplierUserForm {
     @ApiModelProperty("用户名")
-    private String username;
+    private String phoneNum;
     /**
      * 店名
      */
@@ -24,4 +24,9 @@ public class AddSupplierUserForm {
      */
     @ApiModelProperty("备用联系方式 *非必填项")
     private String remark;
+
+    /**
+     * 微信openId
+     */
+    private String openId;
 }

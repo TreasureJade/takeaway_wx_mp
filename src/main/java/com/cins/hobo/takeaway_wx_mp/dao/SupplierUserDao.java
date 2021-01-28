@@ -18,7 +18,9 @@ public interface SupplierUserDao {
 
     int updateByPrimaryKey(SupplierUser record);
 
-    SupplierUser getSupplierUserByUsername(String username);
+    SupplierUser selectByPhoneNum(String phoneNum);
+
+    SupplierUser selectByOpenId(String openId);
 
     List<SupplierUserListVO> getSupplierUserList();
 }

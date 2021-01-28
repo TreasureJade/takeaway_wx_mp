@@ -16,13 +16,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface SupplierUserService {
 
-    SupplierUser getCurrentUser();
 
-    SupplierUser getSupplierUserByUsername(String username);
+    SupplierUser getSupUserByUsername(String phoneNum);
 
-    ResultVO login(LoginForm loginForm, HttpServletResponse response);
+    SupplierUser getSupUserByOpenId(String openId);
 
     ResultVO updateInfo(UpdateSupplierInfoForm form);
 
-    ResultVO updatePw(UpdatePwForm form);
 }

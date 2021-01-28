@@ -161,14 +161,11 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public ResultVO insertSupplierUser(AddSupplierUserForm addSupplierUserForm) {
-        if (supplierUserDao.getSupplierUserByUsername(addSupplierUserForm.getUsername())!=null){
+        if (supplierUserDao.selectByPhoneNum(addSupplierUserForm.getPhoneNum())!=null){
             return ResultVO.error(ResultEnum.USER_ALREADY_EXIST);
         }
-        String password = new BCryptPasswordEncoder().encode(jwtProperties.getDefaultPassword());
         SupplierUser user = new SupplierUser();
         BeanUtils.copyProperties(addSupplierUserForm,user);
-        user.setPassword(password);
-        user.setRole(RoleEnum.USER.getValue());
         if (supplierUserDao.insert(user)==1){
             return ResultVO.success(user);
         }
@@ -219,18 +216,6 @@ public class AdminUserServiceImpl implements AdminUserService {
         return ResultVO.error(ResultEnum.SERVER_ERROR);
     }
 
-    @Override
-    public ResultVO updateSupUserPwToDefaultPw(Integer id) {
-        SupplierUser supplierUser = supplierUserDao.selectByPrimaryKey(id);
-        if (supplierUser == null){
-            return ResultVO.error(ResultEnum.USER_NOT_EXIST);
-        }
-        supplierUser.setPassword(new BCryptPasswordEncoder().encode(jwtProperties.getDefaultPassword()));
-        if (supplierUserDao.updateByPrimaryKeySelective(supplierUser) == 1){
-            return ResultVO.success();
-        }
-        return ResultVO.error(ResultEnum.SERVER_ERROR);
-    }
 
 
 }
