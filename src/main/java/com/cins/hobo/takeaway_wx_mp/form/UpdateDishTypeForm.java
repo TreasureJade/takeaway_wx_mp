@@ -16,6 +16,6 @@ public class UpdateDishTypeForm {
     private Integer id;
 
     @ApiModelProperty("菜品种类名称")
-    private String dishTypeName;
+    private String dishesTypeName;
 
 }
