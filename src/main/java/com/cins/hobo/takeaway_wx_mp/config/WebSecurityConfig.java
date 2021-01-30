@@ -86,6 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/v3/api-docs",
                         "/webjars/**")
                 .permitAll()
+                .antMatchers("/Users/hobo/Documents/upload_test/dishes/**").permitAll()
                 .antMatchers("/admin_user/login","/supplier/login").permitAll()
                 .antMatchers(HttpMethod.GET,"/dishes/dish_detail","/dishes/dish_type"
                                             ,"/dishes/dish_type/getDishesList").permitAll()
