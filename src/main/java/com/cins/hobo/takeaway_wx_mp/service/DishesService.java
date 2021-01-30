@@ -3,6 +3,7 @@ package com.cins.hobo.takeaway_wx_mp.service;
 import com.cins.hobo.takeaway_wx_mp.form.InsertDishForm;
 import com.cins.hobo.takeaway_wx_mp.form.UpdateDishDetailForm;
 import com.cins.hobo.takeaway_wx_mp.vo.ResultVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -53,7 +54,7 @@ public interface DishesService {
      * @param updateDishDetailForm
      * @return
      */
-    ResultVO updateDish(UpdateDishDetailForm updateDishDetailForm,MultipartFile file);
+    ResultVO updateDish(UpdateDishDetailForm updateDishDetailForm,@Param("file") MultipartFile file);
 
     /**
      * 删除菜品

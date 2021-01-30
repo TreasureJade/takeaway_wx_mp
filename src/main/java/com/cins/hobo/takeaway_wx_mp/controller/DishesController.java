@@ -30,7 +30,7 @@ public class DishesController {
     @RoleContro(role = RoleEnum.SUPPER_ADMIN)
     @ApiOperation("添加新的菜品种类")
     @PostMapping(value = "/dish_type")
-    @ApiImplicitParams({@ApiImplicitParam(name = "dishTypeName", value = "菜品种类名称", required = true,dataTypeClass = String.class)})
+    @ApiImplicitParams({@ApiImplicitParam(name = "dishesTypeName", value = "菜品种类名称", required = true,dataTypeClass = String.class)})
     public ResultVO insertDishesType(String dishesTypeName) {
         return dishesService.insertDishesType(dishesTypeName);
     }
@@ -39,7 +39,7 @@ public class DishesController {
     @ApiOperation("更改菜品种类名称")
     @PutMapping(value = "/dish_type")
     public ResultVO updateDishesType(UpdateDishTypeForm form) {
-        return dishesService.updateDishesTypeName(form.getId(), form.getDishTypeName());
+        return dishesService.updateDishesTypeName(form.getId(), form.getDishesTypeName());
     }
 
     @RoleContro(role = RoleEnum.SUPPER_ADMIN)
@@ -74,8 +74,8 @@ public class DishesController {
     @RoleContro(role = RoleEnum.SUPPER_ADMIN)
     @ApiOperation("更新新的菜品")
     @PutMapping(value = "/dish_detail")
-    public ResultVO updateDish(UpdateDishDetailForm dishDetailForm, @RequestPart("file") MultipartFile file) {
-        return dishesService.updateDish(dishDetailForm, file);
+    public ResultVO updateDish(UpdateDishDetailForm dishDetailForm,MultipartFile file) {
+        return dishesService.updateDish(dishDetailForm,file);
     }
 
     @RoleContro(role = RoleEnum.SUPPER_ADMIN)

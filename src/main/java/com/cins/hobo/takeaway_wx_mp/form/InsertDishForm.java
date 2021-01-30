@@ -2,6 +2,7 @@ package com.cins.hobo.takeaway_wx_mp.form;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 
@@ -43,6 +44,5 @@ public class InsertDishForm {
      */
     @ApiModelProperty("菜品特惠价")
     private BigDecimal prePrice;
-
 
 }

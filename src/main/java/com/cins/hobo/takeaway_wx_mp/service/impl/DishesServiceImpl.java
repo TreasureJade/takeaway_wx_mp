@@ -17,8 +17,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -98,6 +100,7 @@ public class DishesServiceImpl implements DishesService {
     }
 
     @Override
+    @Transactional
     public ResultVO insertDish(InsertDishForm insertDishForm, MultipartFile file) {
         if (dishesDetailDao.selectByDishName(insertDishForm.getDishName()) != null) {
             return ResultVO.error(ResultEnum.DISH_ALREADY_EXIST);
@@ -118,6 +121,7 @@ public class DishesServiceImpl implements DishesService {
     }
 
     @Override
+    @Transactional
     public ResultVO updateDish(UpdateDishDetailForm updateDishDetailForm, MultipartFile file) {
         if (dishesDetailDao.selectByPrimaryKey(updateDishDetailForm.getId()) == null) {
             return ResultVO.error(ResultEnum.DISH_NOT_EXIST);
@@ -125,6 +129,8 @@ public class DishesServiceImpl implements DishesService {
         DishesDetail detail = dishesDetailDao.selectByPrimaryKey(updateDishDetailForm.getId());
         BeanUtils.copyProperties(updateDishDetailForm, detail);
         if (file != null) {
+            File oldFile = new File(detail.getDishPicUrl());
+            oldFile.deleteOnExit();
             String tempUrl = path + detail.getDishName() + UploadFileUtil.getFileType(file);
             String url = UploadFileUtil.uploadPic(tempUrl, file);
             if (!"".equals(url)) {
@@ -144,6 +150,8 @@ public class DishesServiceImpl implements DishesService {
         if (detail == null) {
             return ResultVO.error(ResultEnum.DISH_NOT_EXIST);
         }
+        File file = new File(detail.getDishPicUrl());
+        file.deleteOnExit();
         removeRedisKey(detail.getDishTypeId());
         if (dishesDetailDao.deleteByPrimaryKey(id) == 1) {
             return ResultVO.success();
