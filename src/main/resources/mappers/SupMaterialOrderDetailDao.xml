@@ -32,6 +32,12 @@
       LEFT JOIN materials_detail on material_id = materials_detail.id
       WHERE sub_user_id = #{supUserId} and order_status= #{orderStatus}
     </select>
+    <select id="getOrderDetailByOrderId" resultType="com.cins.hobo.takeaway_wx_mp.dto.SupOrderDetailListDTO">
+      select smod.id,smod.material_id,smod.material_price,smod.material_quantity,md.metarials_name as materialsName,create_time,update_time
+      from sup_material_order_detail smod
+      left join materials_detail md on material_id = md.id
+      where order_id = #{orderId}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sup_material_order_detail
     where id = #{id,jdbcType=INTEGER}

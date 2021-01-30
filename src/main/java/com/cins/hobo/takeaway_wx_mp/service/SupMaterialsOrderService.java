@@ -27,11 +27,22 @@ public interface SupMaterialsOrderService {
      * @param priceForms
      * @return
      */
-    ResultVO supUserUpdateMaterialOrder(String openId,List<UpdateMaterialOrderPriceForm> priceForms);
+    ResultVO supUserUpdateMaterialOrder(List<UpdateMaterialOrderPriceForm> priceForms);
 
     /**
      *
      * @return
      */
     ResultVO getSupUserAllNewOrder(String openId);
+
+    /**
+     * 店员查看所有供货订单
+     */
+    ResultVO getAllOrders();
+
+    /**
+     * 店员查看供货订单详细
+     * @param orderId 订单id
+     */
+    ResultVO getOrderDetail(String orderId);
 }

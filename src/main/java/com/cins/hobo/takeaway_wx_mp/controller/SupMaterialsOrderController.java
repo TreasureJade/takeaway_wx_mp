@@ -28,9 +28,22 @@ public class SupMaterialsOrderController {
     @Autowired
     private SupMaterialsOrderService orderService;
 
+    @ApiOperation("店员创建订单")
     @PostMapping("/admin_order")
     public ResultVO createNewMaterialsOrder(@RequestBody List<CreateMaterialsOrderForm> orderForm){
         return orderService.createNewMaterialsOrder(orderForm);
+    }
+
+    @ApiOperation("店员查看所有订单")
+    @GetMapping("/admin_order")
+    public ResultVO getAllOrders(){
+        return orderService.getAllOrders();
+    }
+
+    @ApiOperation("店员查看订单详细")
+    @GetMapping("/admin_order_detail")
+    public ResultVO getOrderDetail(String orderId){
+        return orderService.getOrderDetail(orderId);
     }
 
     @ApiOperation("供货商查看所有未处理订单")
@@ -41,8 +54,8 @@ public class SupMaterialsOrderController {
 
     @ApiOperation("供货商修改订单中原材料单价")
     @PutMapping("/sup_order")
-    public ResultVO supUserUpdateOrderMaterialsPrice(@RequestBody List<UpdateMaterialOrderPriceForm> priceForms,String openId){
-        return orderService.supUserUpdateMaterialOrder(openId,priceForms);
+    public ResultVO supUserUpdateOrderMaterialsPrice(@RequestBody List<UpdateMaterialOrderPriceForm> priceForms){
+        return orderService.supUserUpdateMaterialOrder(priceForms);
     }
 
 }

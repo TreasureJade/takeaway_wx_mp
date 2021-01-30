@@ -1,5 +1,6 @@
 package com.cins.hobo.takeaway_wx_mp.dao;
 
+import com.cins.hobo.takeaway_wx_mp.dto.SupOrderDetailListDTO;
 import com.cins.hobo.takeaway_wx_mp.entry.SupMaterialOrderDetail;
 import com.cins.hobo.takeaway_wx_mp.vo.SupOrderListVO;
 
@@ -21,4 +22,6 @@ public interface SupMaterialOrderDetailDao {
     List<SupMaterialOrderDetail> getDetailsBySubUserId(Integer subUserId);
 
     List<SupOrderListVO> getSupUserAllNewOrder(Integer supUserId, Integer orderStatus);
+
+    List<SupOrderDetailListDTO> getOrderDetailByOrderId(String orderId);
 }
