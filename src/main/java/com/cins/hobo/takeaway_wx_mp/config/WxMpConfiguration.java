@@ -3,6 +3,9 @@ package com.cins.hobo.takeaway_wx_mp.config;
 import com.cins.hobo.takeaway_wx_mp.handler.LogHandler;
 import com.cins.hobo.takeaway_wx_mp.handler.MenuHandler;
 import com.cins.hobo.takeaway_wx_mp.handler.SubscribeHandler;
+import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.service.WxPayService;
+import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
 import lombok.Data;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
@@ -75,18 +78,18 @@ public class WxMpConfiguration {
         return wxMpService;
     }
 
-//    @Bean
-//    public WxPayService wxService() {
-//        WxPayConfig payConfig = new WxPayConfig();
-//        payConfig.setAppId(this.appId);
-//        payConfig.setMchId(this.mchId);
-//        payConfig.setMchKey(this.mchKey);
-//
-//        payConfig.setUseSandboxEnv(false);
-//        WxPayService wxPayService = new WxPayServiceImpl();
-//        wxPayService.setConfig(payConfig);
-//        return wxPayService;
-//    }
+    @Bean
+    public WxPayService wxService() {
+        WxPayConfig payConfig = new WxPayConfig();
+        payConfig.setAppId(this.appId);
+        payConfig.setMchId(this.mchId);
+        payConfig.setMchKey(this.mchKey);
+
+        payConfig.setUseSandboxEnv(false);
+        WxPayService wxPayService = new WxPayServiceImpl();
+        wxPayService.setConfig(payConfig);
+        return wxPayService;
+    }
 
 
     @Bean
