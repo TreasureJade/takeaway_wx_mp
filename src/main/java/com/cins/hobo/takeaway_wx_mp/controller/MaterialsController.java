@@ -8,9 +8,7 @@ import com.cins.hobo.takeaway_wx_mp.form.UpdateMaterialsForm;
 import com.cins.hobo.takeaway_wx_mp.form.UpdateMaterialsTypeForm;
 import com.cins.hobo.takeaway_wx_mp.service.MaterialsService;
 import com.cins.hobo.takeaway_wx_mp.vo.ResultVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,7 +45,8 @@ public class MaterialsController {
     @ApiOperation("删除原材料种类,该操作将会删除该种类下的所有原材料！")
     @DeleteMapping("/type")
     @RoleContro(role = RoleEnum.SUPPER_ADMIN)
-    public ResultVO deleteMaterialsType(@ApiParam(value = "原材料id") Integer id){
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "原材料种类id",dataType = "INTEGER", required = true,dataTypeClass = Integer.class)})
+    public ResultVO deleteMaterialsType(Integer id){
         return materialsService.deleteMetarialsType(id);
     }
 
@@ -72,17 +71,19 @@ public class MaterialsController {
         return materialsService.updateMetarialsDetail(form);
     }
 
+    @RoleContro(role = RoleEnum.SUPPER_ADMIN)
     @ApiOperation("删除原材料")
     @DeleteMapping("/detail")
-    @RoleContro(role = RoleEnum.SUPPER_ADMIN)
-    public ResultVO deleteMaterialDetail(@ApiParam(value = "原材料id") Integer id){
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "原材料id",dataType = "INTEGER", required = true,dataTypeClass = Integer.class)})
+    public ResultVO deleteMaterialDetail(Integer id){
         return materialsService.deleteMetarialsDetail(id);
     }
 
     @ApiOperation("获取某个种类下的所有原材料")
-    @GetMapping("/detail_list ")
+    @GetMapping("/detail_list")
     @RoleContro(role = RoleEnum.ADMIN)
-    public ResultVO getMaterialListByTypeId(@ApiParam(value = "原材料种类id") Integer typeId){
+    @ApiImplicitParams({@ApiImplicitParam(name = "typeId", value = "菜品种类id",dataType = "INTEGER", required = true,dataTypeClass = Integer.class)})
+    public ResultVO getMaterialListByTypeId(Integer typeId){
         return materialsService.getMetarialsDetailByTypeId(typeId);
     }
 
