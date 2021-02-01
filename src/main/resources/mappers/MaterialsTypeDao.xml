@@ -22,7 +22,7 @@
      select id,metarials_type_name from materials_type
   </select>
   <select id="getDetailListByTypeId" resultType="com.cins.hobo.takeaway_wx_mp.vo.MetarialsDetailListVO">
-    select materials_type.id as materialTypeId ,metarials_type_name,sup_user_id,supplier_user.username as supUsername,
+    select materials_type.id as materialTypeId ,metarials_type_name,sup_user_id,supplier_user.phone_num as supUsername,
     supplier_user.trade_name
     from materials_type
         left JOIN  supplier_user ON materials_type.sup_user_id = supplier_user.id
