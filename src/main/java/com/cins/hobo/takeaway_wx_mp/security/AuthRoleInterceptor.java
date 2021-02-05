@@ -3,11 +3,8 @@ package com.cins.hobo.takeaway_wx_mp.security;
 import com.alibaba.fastjson.JSON;
 import com.cins.hobo.takeaway_wx_mp.accessctro.RoleContro;
 import com.cins.hobo.takeaway_wx_mp.entry.AdminUser;
-import com.cins.hobo.takeaway_wx_mp.entry.SupplierUser;
 import com.cins.hobo.takeaway_wx_mp.enums.ResultEnum;
-import com.cins.hobo.takeaway_wx_mp.enums.RoleEnum;
 import com.cins.hobo.takeaway_wx_mp.service.AdminUserService;
-import com.cins.hobo.takeaway_wx_mp.service.SupplierUserService;
 import com.cins.hobo.takeaway_wx_mp.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +28,6 @@ public class AuthRoleInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private AdminUserService userService;
 
-    @Autowired
-    private SupplierUserService supplierUserService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -50,9 +45,8 @@ public class AuthRoleInterceptor extends HandlerInterceptorAdapter {
             if (roleControl == null) {
                 return true;
             }
-            log.warn(user.getUserName());
-            Integer userValue = user.getRole();
             Integer roleValue = roleControl.role().getValue();
+            Integer userValue = user.getRole();
             log.info("RoleValue:{},userRole:{}", roleValue, userValue);
             if (userValue >= roleValue) {
                 return true;

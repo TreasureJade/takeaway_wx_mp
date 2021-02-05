@@ -114,4 +114,19 @@ public class AdminUserController {
         return adminUserService.deleteSupplierUser(id);
     }
 
+    @RoleContro(role = RoleEnum.SUPPER_ADMIN)
+    @ApiOperation("获取微信用户列表")
+    @GetMapping(value = "/wx_user_list")
+    public ResultVO getWxUserList(){
+        return adminUserService.getWxUserList();
+    }
+
+    @RoleContro(role = RoleEnum.SUPPER_ADMIN)
+    @ApiOperation("根据微信昵称查找用户")
+    @GetMapping("/wx_user")
+    @ApiImplicitParams({@ApiImplicitParam(name = "nickname",value = "微信用户昵称",required = true,dataTypeClass = String.class)})
+    public ResultVO getWxUserByNickname(String nickname){
+        return adminUserService.getWxUserByNickname(nickname);
+    }
+
 }

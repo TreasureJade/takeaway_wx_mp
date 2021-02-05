@@ -3,6 +3,7 @@ package com.cins.hobo.takeaway_wx_mp.config;
 import com.cins.hobo.takeaway_wx_mp.security.JwtAuthenticationEntryPoint;
 import com.cins.hobo.takeaway_wx_mp.security.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -58,6 +59,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Value("${file.dish_pic}")
+    private String picUrl;
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -79,17 +83,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.js"
                 ).permitAll()
                 //配置swagger界面的匿名访问
-                .antMatchers( "/swagger-ui.html",
+                .antMatchers("/swagger-ui.html",
                         "/swagger-ui/*",
                         "/swagger-resources/**",
                         "/v2/api-docs",
                         "/v3/api-docs",
                         "/webjars/**")
                 .permitAll()
-                .antMatchers("/Users/hobo/Documents/upload_test/dishes/**").permitAll()
-                .antMatchers("/admin_user/login","/supplier/login").permitAll()
-                .antMatchers(HttpMethod.GET,"/dishes/dish_detail","/dishes/dish_type"
-                                            ,"/dishes/dish_type/getDishesList").permitAll()
+                .antMatchers(picUrl + "**").permitAll()
+                .antMatchers("/admin_user/login", "/supplier/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/dishes/dish_detail", "/dishes/dish_type"
+                        , "/dishes/dish_type/getDishesList").permitAll()
                 .antMatchers("/wx/**").permitAll()
                 .anyRequest().authenticated();
 

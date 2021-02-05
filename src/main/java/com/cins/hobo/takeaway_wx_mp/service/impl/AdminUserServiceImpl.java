@@ -2,8 +2,10 @@ package com.cins.hobo.takeaway_wx_mp.service.impl;
 
 import com.cins.hobo.takeaway_wx_mp.dao.AdminUserDao;
 import com.cins.hobo.takeaway_wx_mp.dao.SupplierUserDao;
+import com.cins.hobo.takeaway_wx_mp.dao.WxUserInfoDao;
 import com.cins.hobo.takeaway_wx_mp.entry.AdminUser;
 import com.cins.hobo.takeaway_wx_mp.entry.SupplierUser;
+import com.cins.hobo.takeaway_wx_mp.entry.WxUserInfo;
 import com.cins.hobo.takeaway_wx_mp.enums.ResultEnum;
 import com.cins.hobo.takeaway_wx_mp.enums.RoleEnum;
 import com.cins.hobo.takeaway_wx_mp.form.AddSupplierUserForm;
@@ -59,6 +61,8 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Autowired
     private SupplierUserDao supplierUserDao;
 
+    @Autowired
+    private WxUserInfoDao wxUserInfoDao;
 
     @Override
     public AdminUser getCurrentUser() {
@@ -127,13 +131,13 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (user == null) {
             return ResultVO.error(ResultEnum.AUTHENTICATION_ERROR);
         }
-        if (!new BCryptPasswordEncoder().matches(updatePwForm.getOldPw(), user.getPassword())){
+        if (!new BCryptPasswordEncoder().matches(updatePwForm.getOldPw(), user.getPassword())) {
             return ResultVO.error(ResultEnum.PASSWORD_ERROR);
 
         }
         String newPw = new BCryptPasswordEncoder().encode(updatePwForm.getNewPw());
         user.setPassword(newPw);
-        if (adminUserDao.updateByPrimaryKeySelective(user)==1){
+        if (adminUserDao.updateByPrimaryKeySelective(user) == 1) {
             return ResultVO.success();
         }
         return ResultVO.error(ResultEnum.SERVER_ERROR);
@@ -148,10 +152,10 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public ResultVO deleteUser(Integer id) {
-        if (adminUserDao.selectByPrimaryKey(id)==null){
+        if (adminUserDao.selectByPrimaryKey(id) == null) {
             return ResultVO.error(ResultEnum.USER_NOT_EXIST);
-        }else {
-            if (adminUserDao.deleteByPrimaryKey(id)==1){
+        } else {
+            if (adminUserDao.deleteByPrimaryKey(id) == 1) {
                 return ResultVO.success();
             }
         }
@@ -161,12 +165,12 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public ResultVO insertSupplierUser(AddSupplierUserForm addSupplierUserForm) {
-        if (supplierUserDao.selectByPhoneNum(addSupplierUserForm.getPhoneNum())!=null){
+        if (supplierUserDao.selectByPhoneNum(addSupplierUserForm.getPhoneNum()) != null) {
             return ResultVO.error(ResultEnum.USER_ALREADY_EXIST);
         }
         SupplierUser user = new SupplierUser();
-        BeanUtils.copyProperties(addSupplierUserForm,user);
-        if (supplierUserDao.insert(user)==1){
+        BeanUtils.copyProperties(addSupplierUserForm, user);
+        if (supplierUserDao.insert(user) == 1) {
             return ResultVO.success(user);
         }
         return ResultVO.error(ResultEnum.SERVER_ERROR);
@@ -175,11 +179,11 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public ResultVO updateAdminUserRole(Integer id, Integer role) {
         AdminUser user = adminUserDao.selectByPrimaryKey(id);
-        if (user==null){
+        if (user == null) {
             return ResultVO.error(ResultEnum.USER_NOT_EXIST);
         }
         user.setRole(role);
-        if (adminUserDao.updateByPrimaryKeySelective(user)==1){
+        if (adminUserDao.updateByPrimaryKeySelective(user) == 1) {
             return ResultVO.success();
         }
         return ResultVO.error(ResultEnum.SERVER_ERROR);
@@ -194,10 +198,10 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public ResultVO deleteSupplierUser(Integer id) {
         SupplierUser supplierUser = supplierUserDao.selectByPrimaryKey(id);
-        if (supplierUser==null){
+        if (supplierUser == null) {
             return ResultVO.error(ResultEnum.USER_NOT_EXIST);
         }
-        if (supplierUserDao.deleteByPrimaryKey(id)==1){
+        if (supplierUserDao.deleteByPrimaryKey(id) == 1) {
             return ResultVO.success();
         }
         return ResultVO.error(ResultEnum.SERVER_ERROR);
@@ -206,16 +210,29 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public ResultVO updatePwToDefaultPw(Integer id) {
         AdminUser adminUser = adminUserDao.selectByPrimaryKey(id);
-        if (adminUser == null){
+        if (adminUser == null) {
             return ResultVO.error(ResultEnum.USER_NOT_EXIST);
         }
         adminUser.setPassword(new BCryptPasswordEncoder().encode(jwtProperties.getDefaultPassword()));
-        if (adminUserDao.updateByPrimaryKeySelective(adminUser)==1){
+        if (adminUserDao.updateByPrimaryKeySelective(adminUser) == 1) {
             return ResultVO.success();
         }
         return ResultVO.error(ResultEnum.SERVER_ERROR);
     }
 
+    @Override
+    public ResultVO getWxUserList() {
+        List<WxUserInfo> wxUserInfos = wxUserInfoDao.getWxUserList();
+        return ResultVO.success(wxUserInfos);
+    }
+
+    @Override
+    public ResultVO getWxUserByNickname(String nickname) {
+        if (wxUserInfoDao.selectByNickname(nickname) == null) {
+            return ResultVO.error(ResultEnum.USER_NOT_EXIST);
+        }
+        return ResultVO.success(wxUserInfoDao.selectByNickname(nickname));
+    }
 
 
 }

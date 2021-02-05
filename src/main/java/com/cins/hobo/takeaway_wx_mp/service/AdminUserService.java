@@ -41,4 +41,7 @@ public interface AdminUserService {
 
     ResultVO updatePwToDefaultPw(Integer id);
 
+    ResultVO getWxUserList();
+
+    ResultVO getWxUserByNickname(String nickname);
 }

@@ -13,7 +13,7 @@ public class SupplierUserListVO {
 
     private Integer id;
 
-    private String username;
+    private String phoneNum;
 
     /**
      * 店名
@@ -24,6 +24,8 @@ public class SupplierUserListVO {
      * 备用联系方式
      */
     private String remark;
+
+    private String openId;
 
 
 }
