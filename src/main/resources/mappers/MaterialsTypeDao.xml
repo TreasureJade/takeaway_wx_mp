@@ -19,7 +19,7 @@
       select id,metarials_type_name from materials_type where metarials_type_name = #{metarialsTypeName}
     </select>
   <select id="getMetarialsTypeList" resultType="com.cins.hobo.takeaway_wx_mp.entry.MaterialsType">
-     select id,metarials_type_name from materials_type
+     select id,metarials_type_name ,sup_user_id from materials_type
   </select>
   <select id="getDetailListByTypeId" resultType="com.cins.hobo.takeaway_wx_mp.vo.MetarialsDetailListVO">
     select materials_type.id as materialTypeId ,metarials_type_name,sup_user_id,supplier_user.phone_num as supUsername,
