@@ -16,6 +16,17 @@
     from wx_user_info
     where id = #{id,jdbcType=INTEGER}
   </select>
+    <select id="getWxUserList" resultType="com.cins.hobo.takeaway_wx_mp.entry.WxUserInfo">
+      select
+      <include refid="Base_Column_List" />
+      from wx_user_info
+    </select>
+  <select id="selectByNickname" resultType="com.cins.hobo.takeaway_wx_mp.entry.WxUserInfo">
+    select
+    <include refid="Base_Column_List" />
+    from wx_user_info
+    where nickname=#{nickname}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from wx_user_info
     where id = #{id,jdbcType=INTEGER}
