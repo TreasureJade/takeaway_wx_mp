@@ -20,6 +20,9 @@
   <select id="getDishesTypeList" resultType="com.cins.hobo.takeaway_wx_mp.entry.DishesType">
     select id, type_name from dishes_type
   </select>
+  <select id="getDishesTypeList2" resultType="com.cins.hobo.takeaway_wx_mp.vo.DishesDetailListVO">
+    select id as typeId, type_name from dishes_type
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from dishes_type
     where id = #{id,jdbcType=INTEGER}

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cins.hobo.takeaway_wx_mp.dao.ConsumerOrderDetailDao">
+  <resultMap id="BaseResultMap" type="com.cins.hobo.takeaway_wx_mp.entry.ConsumerOrderDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_Id" jdbcType="VARCHAR" property="orderId" />
+    <result column="dishes_id" jdbcType="INTEGER" property="dishesId" />
+    <result column="dishes_quantity" jdbcType="INTEGER" property="dishesQuantity" />
+    <result column="dishes_price" jdbcType="DECIMAL" property="dishesPrice" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_Id, dishes_id, dishes_quantity, dishes_price, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from consumer_order_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByOrderId" resultType="com.cins.hobo.takeaway_wx_mp.dto.ConsumerOrderDetailDTO">
+      SELECT cod.dishes_id,cod.dishes_price,cod.dishes_quantity,dd.dish_name,dd.dish_pic_url
+      FROM consumer_order_detail AS cod
+      LEFT JOIN dishes_detail as dd on cod.dishes_id=dd.id
+      where cod.order_Id = #{orderId}
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from consumer_order_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.ConsumerOrderDetail" useGeneratedKeys="true">
+    insert into consumer_order_detail (order_Id, dishes_id, dishes_quantity, 
+      dishes_price, create_time, update_time
+      )
+    values (#{orderId,jdbcType=VARCHAR}, #{dishesId,jdbcType=INTEGER}, #{dishesQuantity,jdbcType=INTEGER}, 
+      #{dishesPrice,jdbcType=DECIMAL}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.ConsumerOrderDetail" useGeneratedKeys="true">
+    insert into consumer_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_Id,
+      </if>
+      <if test="dishesId != null">
+        dishes_id,
+      </if>
+      <if test="dishesQuantity != null">
+        dishes_quantity,
+      </if>
+      <if test="dishesPrice != null">
+        dishes_price,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="dishesId != null">
+        #{dishesId,jdbcType=INTEGER},
+      </if>
+      <if test="dishesQuantity != null">
+        #{dishesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="dishesPrice != null">
+        #{dishesPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cins.hobo.takeaway_wx_mp.entry.ConsumerOrderDetail">
+    update consumer_order_detail
+    <set>
+      <if test="orderId != null">
+        order_Id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="dishesId != null">
+        dishes_id = #{dishesId,jdbcType=INTEGER},
+      </if>
+      <if test="dishesQuantity != null">
+        dishes_quantity = #{dishesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="dishesPrice != null">
+        dishes_price = #{dishesPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cins.hobo.takeaway_wx_mp.entry.ConsumerOrderDetail">
+    update consumer_order_detail
+    set order_Id = #{orderId,jdbcType=VARCHAR},
+      dishes_id = #{dishesId,jdbcType=INTEGER},
+      dishes_quantity = #{dishesQuantity,jdbcType=INTEGER},
+      dishes_price = #{dishesPrice,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

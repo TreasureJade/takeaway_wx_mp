@@ -76,4 +76,10 @@ public interface DishesService {
      * @return
      */
     ResultVO getDishDetailById(Integer id);
+
+    /**
+     * 获取菜单
+     * @return
+     */
+    ResultVO getAll();
 }

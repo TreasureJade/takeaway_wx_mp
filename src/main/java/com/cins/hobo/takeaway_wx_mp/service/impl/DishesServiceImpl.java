@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -107,6 +108,9 @@ public class DishesServiceImpl implements DishesService {
         }
         DishesDetail detail = new DishesDetail();
         BeanUtils.copyProperties(insertDishForm, detail);
+        if (detail.getPrePrice()==null){
+            detail.setPrePrice(BigDecimal.valueOf(-1));
+        }
         if (file != null) {
             String tempUrl = path + detail.getDishName() + UploadFileUtil.getFileType(file);
             String url = UploadFileUtil.uploadPic(tempUrl, file);
@@ -185,6 +189,16 @@ public class DishesServiceImpl implements DishesService {
             return ResultVO.error(ResultEnum.DISH_NOT_EXIST);
         }
         return ResultVO.success(detail);
+    }
+
+    @Override
+    public ResultVO getAll() {
+        List<DishesDetailListVO> result = dishesTypeDao.getDishesTypeList2();
+        for (DishesDetailListVO vo : result) {
+            List<DishesDetail> details = dishesDetailDao.getDishesByTypeId(vo.getTypeId());
+            vo.setDishesDetailList(details);
+        }
+        return ResultVO.success(result);
     }
 
     private List<DishesDetail> getDishesByTypeId(Integer typeId) {
