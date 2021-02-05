@@ -13,14 +13,17 @@ public enum OrderStatusEnum {
     /**
      * 新订单
      */
-    NEW(1),
+    NEW(0),
 
     /**
      * 已被处理
      */
-    HAS_BEEN_PROCESSED(2),
+    HAS_BEEN_PROCESSED(1),
 
-    FINSHED(3)
+    /**
+     * 已完成
+     */
+    FINISHED(2)
     ;
 
     private Integer code;

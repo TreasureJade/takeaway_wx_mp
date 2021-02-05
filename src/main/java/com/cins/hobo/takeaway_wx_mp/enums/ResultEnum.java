@@ -40,7 +40,10 @@ public enum ResultEnum {
     DIR_NOT_EXIST(50,"服务器文件夹不存在" ),
 
     WX_MENU_CREAT_FILED(60,"微信菜单创建失败" ),
-    WX_AUTHORIZATION_FAILED(61,"微信用户授权失败" );
+    WX_AUTHORIZATION_FAILED(61,"微信用户授权失败" ), 
+    ORDER_NOT_EXIST(62,"订单不存在" ),
+    PAY_ERROR(63,"预支付失败" ),
+    PAY_FIlED(63,"支付失败" );
     private Integer code;
     private String msg;
 
