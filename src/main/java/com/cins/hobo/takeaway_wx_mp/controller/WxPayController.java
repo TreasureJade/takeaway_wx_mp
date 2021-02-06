@@ -32,7 +32,7 @@ public class WxPayController {
 
     @ApiOperation("微信异步回调接口")
     @PostMapping("/notify")
-    public ResultVO wxNotify(@RequestBody String xmlData){
+    public String wxNotify(@RequestBody String xmlData){
         return wxPayService.wxNotify(xmlData);
     }
 

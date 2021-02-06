@@ -4,8 +4,10 @@ import com.cins.hobo.takeaway_wx_mp.dao.ConsumerOrderTotalDao;
 import com.cins.hobo.takeaway_wx_mp.entry.ConsumerOrderTotal;
 import com.cins.hobo.takeaway_wx_mp.enums.OrderStatusEnum;
 import com.cins.hobo.takeaway_wx_mp.enums.PayStatusEnum;
+import com.cins.hobo.takeaway_wx_mp.exception.GlobalException;
 import com.cins.hobo.takeaway_wx_mp.service.PayService;
 import com.cins.hobo.takeaway_wx_mp.util.TimeUtils;
+import com.github.binarywang.wxpay.bean.notify.WxPayNotifyResponse;
 import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
@@ -78,28 +80,26 @@ public class WxPayServiceImpl implements PayService {
     }
 
     @Override
-    public ResultVO wxNotify(String xmlData) {
+    public String wxNotify(String xmlData) {
         try {
             WxPayOrderNotifyResult notifyResult = this.wxPayService.parseOrderNotifyResult(xmlData);
             ConsumerOrderTotal order = orderTotalDao.selectByOrderId(notifyResult.getOutTradeNo());
             if (order != null) {
-                if (!order.getPayStatus().equals(OrderStatusEnum.HAS_BEEN_PROCESSED.getCode())
-                        && !order.getPayStatus().equals(PayStatusEnum.PAY_SUCCESS.getPayStatu())) {
-                    order.setPayStatus(PayStatusEnum.PAY_SUCCESS.getPayStatu());
-                    order.setOrderStatus(OrderStatusEnum.HAS_BEEN_PROCESSED.getCode());
-                    orderTotalDao.updateByPrimaryKeySelective(order);
-                    log.info("订单号为:{} 支付成功!",notifyResult.getOutTradeNo());
-                    return ResultVO.success();
-                }
-                order.setOrderStatus(OrderStatusEnum.HAS_BEEN_PROCESSED.getCode());
-                order.setPayStatus(PayStatusEnum.PAY_FILED.getPayStatu());
-                orderTotalDao.updateByPrimaryKeySelective(order);
-                return ResultVO.error(ResultEnum.PAY_FIlED);
+                throw new GlobalException(ResultEnum.ORDER_NOT_EXIST);
             }
-            return ResultVO.error(ResultEnum.ORDER_NOT_EXIST);
+            if (!order.getPayStatus().equals(OrderStatusEnum.HAS_BEEN_PROCESSED.getCode())
+                    && !order.getPayStatus().equals(PayStatusEnum.PAY_SUCCESS.getPayStatu())) {
+                order.setPayStatus(PayStatusEnum.PAY_SUCCESS.getPayStatu());
+                order.setOrderStatus(OrderStatusEnum.HAS_BEEN_PROCESSED.getCode());
+                orderTotalDao.updateByPrimaryKeySelective(order);
+                log.info("订单号为:{} 支付成功!", notifyResult.getOutTradeNo());
+                // todo 发送支付成功消息
+                return WxPayNotifyResponse.success("处理成功");
+            }
+            return WxPayNotifyResponse.success("已被处理");
         } catch (WxPayException e) {
-            log.error("支付失败，失败原因:{}",e.getReturnMsg());
-            return ResultVO.error(ResultEnum.SERVER_ERROR);
+            log.error("支付失败，失败原因:{}", e.getMessage());
+            return WxPayNotifyResponse.fail(e.getMessage());
         }
     }
 }

@@ -24,6 +24,6 @@ public interface PayService {
      *
      * @return
      */
-    ResultVO wxNotify(String xmlData);
+    String wxNotify(String xmlData);
 
 }
