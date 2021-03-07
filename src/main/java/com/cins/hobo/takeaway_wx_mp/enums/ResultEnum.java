@@ -43,7 +43,9 @@ public enum ResultEnum {
     WX_AUTHORIZATION_FAILED(61,"微信用户授权失败" ), 
     ORDER_NOT_EXIST(62,"订单不存在" ),
     PAY_ERROR(63,"预支付失败" ),
-    PAY_FIlED(63,"支付失败" );
+    PAY_FIlED(63,"支付失败" ),
+
+    PRINT_LENGTH_ERROR(70,"打印长度错误" );
     private Integer code;
     private String msg;
 

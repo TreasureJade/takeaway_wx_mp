@@ -95,6 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/dishes/dish_detail", "/dishes/dish_type"
                         , "/dishes/dish_type/getDishesList").permitAll()
                 .antMatchers("/wx/**").permitAll()
+                .antMatchers("/leave_msg/**").permitAll()
                 .anyRequest().authenticated();
 
         //配置自己的验证过滤器

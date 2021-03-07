@@ -3,6 +3,7 @@ package com.cins.hobo.takeaway_wx_mp.controller;
 import com.cins.hobo.takeaway_wx_mp.form.ConsumerCreateOrderForm;
 import com.cins.hobo.takeaway_wx_mp.service.ConsumerOrderService;
 import com.cins.hobo.takeaway_wx_mp.service.DishesService;
+import com.cins.hobo.takeaway_wx_mp.service.LeaveMsgService;
 import com.cins.hobo.takeaway_wx_mp.vo.ResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +28,9 @@ public class ConsumerController {
     @Autowired
     private DishesService dishesService;
 
+    @Autowired
+    private LeaveMsgService msgService;
+
     @ApiOperation("创建订单")
     @PostMapping("/order")
     public ResultVO createOrder(@RequestBody ConsumerCreateOrderForm orderForm) {
@@ -46,10 +50,15 @@ public class ConsumerController {
 
     }
 
-
     @ApiOperation("获取菜单")
     @GetMapping("/dishes")
     public ResultVO getDishesList(){
         return dishesService.getAll();
+    }
+
+    @ApiOperation("获取所有留言")
+    @GetMapping("/leave_msg")
+    public ResultVO getAllLeaveMsg(String openId){
+        return msgService.consumerSelectAllLeaveMsg(openId);
     }
 }

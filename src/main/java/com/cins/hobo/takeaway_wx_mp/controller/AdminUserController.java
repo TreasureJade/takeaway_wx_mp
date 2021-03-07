@@ -4,6 +4,7 @@ import com.cins.hobo.takeaway_wx_mp.accessctro.RoleContro;
 import com.cins.hobo.takeaway_wx_mp.enums.RoleEnum;
 import com.cins.hobo.takeaway_wx_mp.form.*;
 import com.cins.hobo.takeaway_wx_mp.service.AdminUserService;
+import com.cins.hobo.takeaway_wx_mp.service.LeaveMsgService;
 import com.cins.hobo.takeaway_wx_mp.service.SupplierUserService;
 import com.cins.hobo.takeaway_wx_mp.vo.ResultVO;
 import io.swagger.annotations.*;
@@ -31,6 +32,9 @@ public class AdminUserController {
 
     @Autowired
     private SupplierUserService supplierUserService;
+
+    @Autowired
+    private LeaveMsgService leaveMsgService;
 
     @ApiOperation("用户登陆")
     @PostMapping(name = "用户登陆", value = "/login")
@@ -129,4 +133,10 @@ public class AdminUserController {
         return adminUserService.getWxUserByNickname(nickname);
     }
 
+    @RoleContro(role = RoleEnum.ADMIN)
+    @GetMapping("/leave_msg")
+    @ApiOperation("查看所有留言")
+    public ResultVO getAllLeaveMsg(){
+        return leaveMsgService.adminSelectAllLeaveMsg();
+    }
 }
