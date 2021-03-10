@@ -35,6 +35,11 @@ public class ConsumerCreateOrderForm {
     private String userAddress;
 
     /**
+     * 预约订单——预约时间
+     */
+    private String advTime;
+
+    /**
      * 购物车商品
      */
     private List<ConsumerOrderDishesDetailDTO> detailList;

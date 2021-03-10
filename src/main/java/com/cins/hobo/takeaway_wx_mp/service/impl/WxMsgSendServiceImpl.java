@@ -28,6 +28,9 @@ public class WxMsgSendServiceImpl implements WxMsgSendService {
     @Value("${wx.mp.template_id.sup_order_create}")
     private String supOrderCreateOrderId;
 
+    @Value("${wx.mp.template_id.adv_order_create}")
+    private String advOrderCreateId;
+
     @Override
     public ResultVO sendCreateOrderMsg(String openId,String orderNo, String createTime, String createUsername) {
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
@@ -47,4 +50,26 @@ public class WxMsgSendServiceImpl implements WxMsgSendService {
             return ResultVO.error(ResultEnum.SERVER_ERROR);
         }
     }
+
+    @Override
+    public ResultVO sendCreateAdvOrderMsg(String openId, String advTime, String orderId){
+        WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
+                .toUser(openId)
+                .templateId(advOrderCreateId)
+                .url("http://a.acgweb.net/index.html#order")
+                .build();
+        templateMessage.addData(new WxMpTemplateData("keyword1",orderId));
+        templateMessage.addData(new WxMpTemplateData("keyword2",advTime));
+        templateMessage.addData(new WxMpTemplateData("remark","请尽快支付哦～"));
+
+        try {
+            String result = wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+            return ResultVO.success(result);
+        } catch (WxErrorException e) {
+            log.error("消息发送失败，失败原因:{}", e.getMessage());
+            return ResultVO.error(ResultEnum.SERVER_ERROR);
+        }
+
+    }
+
 }

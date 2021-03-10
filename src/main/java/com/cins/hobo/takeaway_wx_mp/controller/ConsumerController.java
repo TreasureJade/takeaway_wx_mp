@@ -37,6 +37,17 @@ public class ConsumerController {
         return orderService.createOrder(orderForm);
     }
 
+    @ApiOperation("创建预约订单")
+    @PostMapping("/adv_order")
+    public ResultVO createAdvOrder(@RequestBody ConsumerCreateOrderForm orderForm) {
+        ResultVO vo = orderService.createOrder(orderForm);
+        if (vo.getCode() == 0) {
+            String orderId = (String) vo.getData();
+            return orderService.createAdvOrder(orderId, orderForm.getAdvTime());
+        }
+        return null;
+    }
+
     @ApiOperation("查看订单详情")
     @GetMapping("/order")
     public ResultVO getOrderDetail(String orderId) {
@@ -52,13 +63,13 @@ public class ConsumerController {
 
     @ApiOperation("获取菜单")
     @GetMapping("/dishes")
-    public ResultVO getDishesList(){
+    public ResultVO getDishesList() {
         return dishesService.getAll();
     }
 
     @ApiOperation("获取所有留言")
     @GetMapping("/leave_msg")
-    public ResultVO getAllLeaveMsg(String openId){
+    public ResultVO getAllLeaveMsg(String openId) {
         return msgService.consumerSelectAllLeaveMsg(openId);
     }
 }

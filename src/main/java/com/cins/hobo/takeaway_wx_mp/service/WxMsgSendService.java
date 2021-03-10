@@ -18,4 +18,6 @@ public interface WxMsgSendService {
      */
     ResultVO sendCreateOrderMsg(String openId,String orderNo,String createTime,String createUsername);
 
+
+    ResultVO sendCreateAdvOrderMsg(String openId,String advTime,String orderId);
 }

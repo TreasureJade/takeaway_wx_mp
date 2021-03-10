@@ -18,5 +18,5 @@ public interface ConsumerOrderService {
 
     ResultVO getAllOrder(String openId);
 
-
+    ResultVO createAdvOrder(String orderId,String advTime);
 }
