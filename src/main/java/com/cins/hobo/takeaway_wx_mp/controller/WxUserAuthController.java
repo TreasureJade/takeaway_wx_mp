@@ -35,7 +35,7 @@ public class WxUserAuthController {
     private WxMpConfiguration wxMpConfiguration;
 
     @ApiOperation("微信服务器测试接口")
-    @PostMapping(value = "/test")
+    @GetMapping(value = "/test")
     public String authGet(
             @RequestParam(name = "signature", required = false) String signature,
             @RequestParam(name = "timestamp", required = false) String timestamp,
