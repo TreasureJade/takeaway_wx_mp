@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cins.hobo.takeaway_wx_mp.dao.ConsumerOrderAdvDao">
+  <resultMap id="BaseResultMap" type="com.cins.hobo.takeaway_wx_mp.entry.ConsumerOrderAdv">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="adv_time" jdbcType="VARCHAR" property="advTime" />
+    <result column="adv_status" jdbcType="INTEGER" property="advStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_id, adv_time, adv_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from consumer_order_adv
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByOrderId" resultType="com.cins.hobo.takeaway_wx_mp.entry.ConsumerOrderAdv">
+      select
+      <include refid="Base_Column_List" />
+      from consumer_order_adv
+      where order_id = #{orderId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from consumer_order_adv
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.ConsumerOrderAdv" useGeneratedKeys="true">
+    insert into consumer_order_adv (order_id, adv_time, adv_status
+      )
+    values (#{orderId,jdbcType=VARCHAR}, #{advTime,jdbcType=VARCHAR}, #{advStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cins.hobo.takeaway_wx_mp.entry.ConsumerOrderAdv" useGeneratedKeys="true">
+    insert into consumer_order_adv
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="advTime != null">
+        adv_time,
+      </if>
+      <if test="advStatus != null">
+        adv_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="advTime != null">
+        #{advTime,jdbcType=VARCHAR},
+      </if>
+      <if test="advStatus != null">
+        #{advStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cins.hobo.takeaway_wx_mp.entry.ConsumerOrderAdv">
+    update consumer_order_adv
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="advTime != null">
+        adv_time = #{advTime,jdbcType=VARCHAR},
+      </if>
+      <if test="advStatus != null">
+        adv_status = #{advStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cins.hobo.takeaway_wx_mp.entry.ConsumerOrderAdv">
+    update consumer_order_adv
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      adv_time = #{advTime,jdbcType=VARCHAR},
+      adv_status = #{advStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
